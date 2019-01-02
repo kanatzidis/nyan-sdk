@@ -19,7 +19,7 @@ async function kvs({database, key, value, del}) {
   return request({
     hostname: API.kvs.host,
     headers: { Authorization: API.kvs.token },
-    path: `/${database}` + (key ? `/${key}` : ''),
+    path: AWS.kvs.prefix + `/${database}` + (key ? `/${key}` : ''),
     body: value,
     method
   });
@@ -47,6 +47,7 @@ async function request(options) {
 
 API.kvs = {
   host: 'kvs.nyan.sh',
+  prefix: '',
   list: async (database) => {
     return kvs({database});
   },
