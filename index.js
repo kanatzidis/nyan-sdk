@@ -18,8 +18,8 @@ async function kvs({database, key, value, del}) {
 
   return request({
     hostname: API.kvs.host,
-    headers: { Authorization: API.kvs.token },
-    path: AWS.kvs.prefix + `/${database}` + (key ? `/${key}` : ''),
+    headers: API.kvs.token ? { Authorization: API.kvs.token } : {},
+    path: API.kvs.prefix + `/${database}` + (key ? `/${key}` : ''),
     body: value,
     method
   });
