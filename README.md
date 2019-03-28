@@ -41,7 +41,11 @@ Returns a string, or null if the database or key is not found.
 
 #### `kvs.list(database name)`
 
+Returns a stringified JSON object containing the key-value pairs for the requested database.
+
 #### `kvs.listDbs()`
+
+Returns a newline-delimited list of database names.
 
 #### `kvs.deleteDb(database name)`
 
