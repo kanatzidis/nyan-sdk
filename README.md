@@ -1,6 +1,8 @@
 # @nyan.sh/sdk
 
-A Node.js SDK for https://nyan.sh
+A Node.js SDK for <a href="https://nyan.sh">https://nyan.sh</a>
+
+See also: <a href="https://docs.nyan.sh">https://docs.nyan.sh</a>
 
 ## Installation
 
@@ -26,38 +28,22 @@ console.log(kvs.get('dbname', 'key')); // 'value'
 #### `kvs.set(database name, key name, value)`
 
 `database name` - any string that does not begin with a backtick ``` ` ```, does not need to already exist
+
 `key name` - any string that does not begin with a backtick ``` ` ```
+
 `value` - any string
 
 #### `kvs.get(database name, key name)`
 
-```
-await kvs.get('dbname', 'key');
-```
+Returns a string, or null if the database or key is not found.
 
-#### `kvs.set(database name, key name, value)`
+#### `kvs.delete(database name, key name)`
 
-```
-await kvs.set('dbname', 'key', 'value');
-```
+#### `kvs.list(database name)`
 
-#### `kvs.set(database name, key name, value)`
+#### `kvs.listDbs()`
 
-```
-await kvs.set('dbname', 'key', 'value');
-```
-
-#### `kvs.set(database name, key name, value)`
-
-```
-await kvs.set('dbname', 'key', 'value');
-```
-
-#### `kvs.set(database name, key name, value)`
-
-```
-await kvs.set('dbname', 'key', 'value');
-```
+#### `kvs.deleteDb(database name)`
 
 ## License
 

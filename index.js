@@ -49,7 +49,7 @@ async function request(options) {
 
       response.on('data', d => data += d);
 
-      response.on('end', () => resolve(response.headers['content-type'] === 'application/json' ? JSON.parse(data) : data));
+      response.on('end', () => resolve(response.headers['content-type'] === 'application/json' ? JSON.parse(data) : (data || null)));
     };
 
     request.on('error', reject);
