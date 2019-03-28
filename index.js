@@ -1,16 +1,17 @@
 const https = require('https');
+const http = require('http');
 const qs = require('querystring');
 
 const API = {};
 
 async function kvs({database, key, value, del}, options={}) {
-  if(typeof database !== 'string') database = database.toString();
+  if(database !== undefined && typeof database !== 'string') database = database.toString();
   if(key !== undefined && typeof key !== 'string') key = key.toString();
   if(value !== undefined && typeof value !== 'string') {
     if(typeof value === 'object') value = JSON.stringify(value);
     else value = value.toString();
   }
-  if(database[0] === '`') throw new Error('Database names cannot start with `');
+  if(database && database[0] === '`') throw new Error('Database names cannot start with `');
   if(key && key[0] === '`') throw new Error('Keys cannot start with `');
 
   var method = del ? 'DELETE'
@@ -27,8 +28,9 @@ async function kvs({database, key, value, del}, options={}) {
 
   return request({
     hostname: API.kvs.host,
-    headers: API.kvs.token ? { Authorization: API.kvs.token } : {},
-    path: API.kvs.prefix + `/${database}` + (key ? `/${key}` : '') + query,
+    port: API.kvs.port,
+    headers: API.kvs.token ? { 'X-Api-Key': API.kvs.token } : {},
+    path: API.kvs.prefix + (database ? `/${encodeURIComponent(database)}` : '') + (key ? `/${encodeURIComponent(key)}` : '') + query,
     body: value,
     method
   });
@@ -38,7 +40,10 @@ async function request(options) {
   console.log(JSON.stringify(options));
 
   return new Promise((resolve, reject) => {
-    var request = https.request(Object.assign(options, {port: 443}), response => {
+    var request = options.port == 443
+      ? https.request(Object.assign(options, {port: 443}), handleResponse)
+      : http.request(options, handleResponse);
+    function handleResponse(response) {
       var data = '';
 
       response.on('error', reject);
@@ -46,7 +51,7 @@ async function request(options) {
       response.on('data', d => data += d);
 
       response.on('end', () => console.log(data) || resolve(response.headers['content-type'] === 'application/json' ? JSON.parse(data) : data));
-    });
+    };
 
     request.on('error', reject);
 
@@ -56,8 +61,12 @@ async function request(options) {
 
 API.kvs = {
   host: 'kvs.nyan.sh',
+  port: '443',
   prefix: '',
-  list: async (database, {keys}) => {
+  listDbs: async () => {
+    return kvs({});
+  },
+  list: async (database, {keys}={}) => {
     return kvs({database}, {keys});
   },
   get: async (database, key) => {
@@ -68,6 +77,9 @@ API.kvs = {
   },
   delete: async (database, key) => {
     return kvs({database,key,del:true});
+  },
+  deleteDb: async(database) => {
+    return kvs({database,del:true});
   }
 };
 
