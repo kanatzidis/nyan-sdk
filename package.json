@@ -1,11 +1,30 @@
 {
   "name": "@nyan.sh/sdk",
-  "version": "0.1.1",
-  "description": "",
+  "version": "0.1.2",
+  "description": "A Node.js SDK for <a href=\"https://nyan.sh\">https://nyan.sh</a>",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
   "author": "Gregori Kanatzidis",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanatzidis/nyan-sdk.git"
+  },
+  "keywords": [
+    "key",
+    "value",
+    "store",
+    "key-value",
+    "http",
+    "rest",
+    "database",
+    "nyan",
+    "kvs"
+  ],
+  "bugs": {
+    "url": "https://github.com/kanatzidis/nyan-sdk/issues"
+  },
+  "homepage": "https://github.com/kanatzidis/nyan-sdk#readme"
 }
