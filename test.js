@@ -27,6 +27,7 @@ async function run() {
   assert.equal('{}', await kvs.list('kvs_tests2'));
   await kvs.set('kvs_tests2', value1, key1);
   assert.equal(key1, await kvs.get('kvs_tests2', value1));
+  assert.equal(null, await kvs.get('kvs_tests', 'fakekeyname'));
 
   // list dbs
   assert.deepEqual(['kvs_tests', 'kvs_tests2'], (await kvs.listDbs()).split('\n').sort());
