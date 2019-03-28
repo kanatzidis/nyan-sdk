@@ -37,7 +37,6 @@ async function kvs({database, key, value, del}, options={}) {
 }
 
 async function request(options) {
-  console.log(JSON.stringify(options));
 
   return new Promise((resolve, reject) => {
     var request = options.port == 443
@@ -50,7 +49,7 @@ async function request(options) {
 
       response.on('data', d => data += d);
 
-      response.on('end', () => console.log(data) || resolve(response.headers['content-type'] === 'application/json' ? JSON.parse(data) : data));
+      response.on('end', () => resolve(response.headers['content-type'] === 'application/json' ? JSON.parse(data) : data));
     };
 
     request.on('error', reject);
