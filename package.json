@@ -1,0 +1,11 @@
+{
+  "name": "@nyan.sh/sdk",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Gregori Kanatzidis",
+  "license": "MIT"
+}
