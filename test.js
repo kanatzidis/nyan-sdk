@@ -52,6 +52,26 @@ async function run() {
     JSON.parse(await kvs.list('kvs_tests2'))
   );
 
+  // expire keys
+  await kvs.set('kvs_tests2', key2, 'this will expire', 5000);
+  await new Promise((g,b) => {
+    setTimeout(async () => {
+      try {
+        assert.equal('this will expire', await kvs.get('kvs_tests2', key2));
+      } catch(e) {
+        return b(e);
+      }
+    }, 2500);
+    setTimeout(async () => {
+      try {
+        assert.equal(null, await kvs.get('kvs_tests2', key2));
+      } catch(e) {
+        return b(e);
+      }
+      g();
+    }, 6000);
+  });
+
   // delete db
   await kvs.deleteDb('kvs_tests');
   await kvs.deleteDb('kvs_tests2');

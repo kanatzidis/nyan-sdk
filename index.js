@@ -4,7 +4,8 @@ const qs = require('querystring');
 
 const API = {};
 
-async function kvs({database, key, value, del}, options={}) {
+async function kvs({database, key, value, del, ttl}, options={}) {
+  if(typeof ttl !== 'number') ttl = 0;
   if(database !== undefined && typeof database !== 'string') database = database.toString();
   if(key !== undefined && typeof key !== 'string') key = key.toString();
   if(value !== undefined && typeof value !== 'string') {
@@ -26,10 +27,15 @@ async function kvs({database, key, value, del}, options={}) {
       : `?keys=${options.keys.map(k => qs.escape(k)).join(',')}`
   }
 
+  const headers = {};
+
+  if(API.kvs.token) headers['X-Api-Key'] = API.kvs.token;
+  if(ttl) headers['X-Kvs-Ttl'] = ttl
+
   return request({
     hostname: API.kvs.host,
     port: API.kvs.port,
-    headers: API.kvs.token ? { 'X-Api-Key': API.kvs.token } : {},
+    headers: headers,
     path: API.kvs.prefix + (database ? `/${encodeURIComponent(database)}` : '') + (key ? `/${encodeURIComponent(key)}` : '') + query,
     body: value,
     method
@@ -71,8 +77,8 @@ API.kvs = {
   get: async (database, key) => {
     return kvs({database,key});
   },
-  set: async (database, key, data) => {
-    return kvs({database,key,value:data});
+  set: async (database, key, data, ttl=0) => {
+    return kvs({database,key,value:data,ttl});
   },
   delete: async (database, key) => {
     return kvs({database,key,del:true});
