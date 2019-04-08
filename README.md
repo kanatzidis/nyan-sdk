@@ -25,13 +25,15 @@ await kvs.set('dbname', 'key', 'value');
 console.log(kvs.get('dbname', 'key')); // 'value'
 ```
 
-#### `kvs.set(database name, key name, value)`
+#### `kvs.set(database name, key name, value, ttl=0)`
 
 `database name` - any string that does not begin with a backtick ``` ` ```, does not need to already exist
 
 `key name` - any string that does not begin with a backtick ``` ` ```
 
 `value` - any string
+
+`ttl` - a nonnegative integer representing a millisecond timeout, 0 means no timeout
 
 #### `kvs.get(database name, key name)`
 

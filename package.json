@@ -1,6 +1,6 @@
 {
   "name": "@nyan.sh/sdk",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A Node.js SDK for <a href=\"https://nyan.sh\">https://nyan.sh</a>",
   "main": "index.js",
   "scripts": {
